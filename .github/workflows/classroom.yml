@@ -1,0 +1,170 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Q1 Basic
+      id: q1-basic
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q1 Basic
+        setup-command: pip install pytest
+        command: pytest test_question1_basic.py
+        timeout: 10
+        max-score: 3
+    - name: Q1 Case
+      id: q1-case
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q1 Case
+        setup-command: pip install pytest
+        command: pytest test_question1_case.py
+        timeout: 10
+        max-score: 2
+    - name: Q1 No vowels
+      id: q1-no-vowels
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q1 No vowels
+        setup-command: pip install pytest
+        command: pytest test_question1_no_vowels.py
+        timeout: 10
+        max-score: 1
+    - name: Q1 Invalid
+      id: q1-invalid
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q1 Invalid
+        setup-command: pip install pytest
+        command: pytest test_question1_invalid.py
+        timeout: 10
+        max-score: 2
+    - name: Q1 Symbols
+      id: q1-symbols
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q1 Symbols
+        setup-command: pip install pytest
+        command: pytest test_question1_symbols.py
+        timeout: 10
+        max-score: 2
+    - name: Q2 Basic
+      id: q2-basic
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q2 Basic
+        setup-command: pip install pytest
+        command: pytest test_question2_basic.py
+        timeout: 10
+        max-score: 3
+    - name: Q2 Duplicates
+      id: q2-duplicates
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q2 Duplicates
+        setup-command: pip install pytest
+        command: pytest test_question2_duplicates.py
+        timeout: 10
+        max-score: 2
+    - name: Q2 Invalid
+      id: q2-invalid
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q2 Invalid
+        setup-command: pip install pytest
+        command: pytest test_question2_invalid.py
+        timeout: 10
+        max-score: 2
+    - name: Q2 Negative values
+      id: q2-negative-values
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q2 Negative values
+        setup-command: pip install pytest
+        command: pytest test_question2_negative.py
+        timeout: 10
+        max-score: 2
+    - name: Q2 Single element
+      id: q2-single-element
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q2 Single element
+        setup-command: pip install pytest
+        command: pytest test_question2_single.py
+        timeout: 10
+        max-score: 1
+    - name: Q3 Load json
+      id: q3-load-json
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q3 Load json
+        setup-command: pip install pytest
+        command: pytest test_question3_load_json.py
+        timeout: 10
+        max-score: 4
+    - name: Q3 Department filter
+      id: q3-department-filter
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q3 Department filter
+        setup-command: pip install pytest
+        command: pytest test_question3_dept_filter.py
+        timeout: 10
+        max-score: 4
+    - name: Q3 Salary filter
+      id: q3-salary-filter
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q3 Salary filter
+        setup-command: pip install pytest
+        command: pytest test_question3_sal_filter.py
+        timeout: 10
+        max-score: 4
+    - name: Q3 Sorting
+      id: q3-sorting
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q3 Sorting
+        setup-command: pip install pytest
+        command: pytest test_question3_sorting.py
+        timeout: 10
+        max-score: 4
+    - name: Q3 Exception
+      id: q3-exception
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q3 Exception
+        setup-command: pip install pytest
+        command: pytest test_question3_exception.py
+        timeout: 10
+        max-score: 4
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        Q1-BASIC_RESULTS: "${{steps.q1-basic.outputs.result}}"
+        Q1-CASE_RESULTS: "${{steps.q1-case.outputs.result}}"
+        Q1-NO-VOWELS_RESULTS: "${{steps.q1-no-vowels.outputs.result}}"
+        Q1-INVALID_RESULTS: "${{steps.q1-invalid.outputs.result}}"
+        Q1-SYMBOLS_RESULTS: "${{steps.q1-symbols.outputs.result}}"
+        Q2-BASIC_RESULTS: "${{steps.q2-basic.outputs.result}}"
+        Q2-DUPLICATES_RESULTS: "${{steps.q2-duplicates.outputs.result}}"
+        Q2-INVALID_RESULTS: "${{steps.q2-invalid.outputs.result}}"
+        Q2-NEGATIVE-VALUES_RESULTS: "${{steps.q2-negative-values.outputs.result}}"
+        Q2-SINGLE-ELEMENT_RESULTS: "${{steps.q2-single-element.outputs.result}}"
+        Q3-LOAD-JSON_RESULTS: "${{steps.q3-load-json.outputs.result}}"
+        Q3-DEPARTMENT-FILTER_RESULTS: "${{steps.q3-department-filter.outputs.result}}"
+        Q3-SALARY-FILTER_RESULTS: "${{steps.q3-salary-filter.outputs.result}}"
+        Q3-SORTING_RESULTS: "${{steps.q3-sorting.outputs.result}}"
+        Q3-EXCEPTION_RESULTS: "${{steps.q3-exception.outputs.result}}"
+      with:
+        runners: q1-basic,q1-case,q1-no-vowels,q1-invalid,q1-symbols,q2-basic,q2-duplicates,q2-invalid,q2-negative-values,q2-single-element,q3-load-json,q3-department-filter,q3-salary-filter,q3-sorting,q3-exception
